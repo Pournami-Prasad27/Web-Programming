@@ -1,0 +1,76 @@
+<?php
+include("connect.php");
+?>
+<html>
+<head>
+<title>book details</title>
+</head>
+<body>
+<center>
+<h2>book details</h2>
+<form action="display.php" method="post">
+book number:<input type="text" name="bookno"><br><br>
+book title:<input type="text" name="booktitle"><br><br>
+book edition:<input type="number" name="booked"><br><br>
+book publisher:<input type="text" name="bookpub" value=" "><br><br>
+<input type="submit" name="submit" value="submit">
+</center>
+</form>
+</body>
+</html>
+Connect.php
+<?php
+$servername="localhost";
+$username="root";
+$password="";
+$dbname="php_programs";
+$conn = new mysqli($servername,$username,$password,$dbname);
+if($conn->connect_error)
+{
+die("Connection failed:".$conn->connect_error);
+}
+?>
+Display.php
+<?php include("connect.php");
+if($_POST)
+{
+$bookno=$_POST['bookno'];
+$booktitle=$_POST['booktitle'];
+$bookedition=$_POST['booked'];
+$bookpub=$_POST['bookpub'];
+$sql=mysqli_query($conn,"INSERT      INTO	BOOK_DETAILS VALUES('$bookno','$booktitle','$bookedition','$bookpub')");
+$query=mysqli_query($conn,"select*from book_details");
+ }
+?>
+<html>
+<head>
+<title>Display book details</title>
+</head>
+<body>
+<table border="1px solid black">
+<tr>
+<th>book number</th>
+<th>title</th>
+<th>edition</th>
+<th>publisher</th>
+</tr>
+<tr>
+<?php
+while($row = mysqli_fetch_assoc($query))
+{
+ echo"<tr>"; 
+ echo"<td>".$row['bookno']."</td>";
+ echo"<td>".$row['booktitle']."</td>";
+ echo"<td>".$row['booked']."</td>";
+ echo"<td>".$row['bookpub']."</td>";
+ echo"</tr>";
+}
+?>
+</tr>
+</table>
+</body>
+</html>
+
+
+
+
